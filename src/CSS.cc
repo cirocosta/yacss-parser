@@ -43,7 +43,7 @@ std::ostream& operator<<(std::ostream& o, const Declarations& declarations)
 std::ostream& operator<<(std::ostream& o, const Selectors& selectors)
 {
   for (const auto& selector : selectors)
-    o << selector;
+    o << selector << " ";
 
   return o;
 }

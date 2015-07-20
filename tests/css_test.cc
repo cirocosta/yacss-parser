@@ -5,9 +5,9 @@
 
 TEST(CSS, Dummy) {
   const char* expected =
-    "h1 {"
-      "margin: auto; "
-    "}";
+    "h1 {\n"
+      "margin: auto;\n"
+    "}\n";
   std::ostringstream actual;
 
   Declaration decl {"margin", "auto"};
@@ -17,7 +17,7 @@ TEST(CSS, Dummy) {
 
   actual << ss;
 
-  EXPECT_EQ(actual.str(), expected);
+  EXPECT_EQ(expected, actual.str());
 
 }
 
