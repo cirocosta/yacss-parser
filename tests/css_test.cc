@@ -3,7 +3,7 @@
 #include "gtest/gtest.h"
 #include "yacss/CSS.hh"
 
-TEST(CSS, Dummy) {
+TEST(CSS, SimpleRule) {
   const char* expected =
     "h1 {\n"
       "margin: auto;\n"

@@ -37,6 +37,7 @@
   COMMA             ","
   LCB               "{"
   RCB               "}"
+  OWS               " "
 ;
 
 %token <std::string>
@@ -59,34 +60,37 @@
 %type <std::string> selector;
 %type <Selectors> selectors;
 
-/* %printer { yyoutput << $$; } <*>; */
+%printer { yyoutput << $$; } <*>;
 
 %%
 
 %start stylesheet;
 
 stylesheet: rules {
-                      driver.stylesheet = Stylesheet { $1 };
-                      $$ = driver.stylesheet;
-                    }
+                    driver.stylesheet = Stylesheet { $1 };
+                    $$ = driver.stylesheet;
+                  }
           ;
 
-rule: selectors '{' declarations '}'  { $$ = Rule {$1, $3}; }
+
+rules: %empty         { $$ = Rules {}; }
+     | rule           { $$ = Rules { $1 }; }
+     | rules rule     { $1.push_back($2); $$ = $1; }
+     ;
+
+rule: selectors OWS LCB declarations RCB  { $$ = Rule {$1, $4}; }
     ;
 
-rules: %empty           { $$ = Rules {}; }
-       | rule           { $$ = Rules { $1 }; }
-       | rules rule     { $1.push_back($2); $$ = $1; }
-       ;
-
-selector: ELEM
-        | ID
-        | CLASS
-        ;
 
 selectors: selector               { $$ = Selectors{ $1 }; }
          | selectors ',' selector { $1.push_back($3); $$ = $1; }
          ;
+
+selector: ELEM  { $$ = $1; }
+        | ID    { $$ = $1; }
+        | CLASS { $$ = $1; }
+        ;
+
 
 declarations: %empty                    { $$ = Declarations {}; }
             | declaration               { $$ = Declarations { $1 }; }

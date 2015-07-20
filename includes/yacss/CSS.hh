@@ -24,7 +24,11 @@ struct Declarations : std::map<std::string, std::string>
 };
 
 typedef std::vector<Rule> Rules;
-typedef std::vector<std::string> Selectors;
+
+struct Selectors : std::vector<std::string>
+{
+  using std::vector<std::string>::vector;
+};
 
 
 struct Stylesheet

@@ -30,7 +30,7 @@ NMCHAR              [_a-zA-Z0-9-]
 
 IDENT               -?{NMSTART}{NMCHAR}*
 DECL_KEY            {IDENT}":"
-DECL_VAL            " "[^:]";"
+DECL_VAL            " "[^:]+";"
 
 ELEM                {IDENT}|"*"
 ID                  "#"{IDENT}
@@ -53,6 +53,7 @@ CLASS               "."{IDENT}
 {ID}            return yy::CSSParser::make_ID(yytext, loc);
 {CLASS}         return yy::CSSParser::make_CLASS(yytext, loc);
 {COMMA}         return yy::CSSParser::make_COMMA(loc);
+{OWS}           return yy::CSSParser::make_OWS(loc);
 
 {LCB}           {
                   BEGIN(DECL);
@@ -71,7 +72,7 @@ CLASS               "."{IDENT}
 
 <DECL>{DECL_VAL} {
                     return yy::CSSParser::make_DECL_VAL(
-                        std::string(yytext, 1, yyleng-1), loc);
+                        std::string(yytext, 1, yyleng-2), loc);
                   }
 
 .               driver.error(loc, "Invalid Character");
