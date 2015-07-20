@@ -5,6 +5,7 @@
 #include <map>
 #include <string>
 #include <utility>
+#include <iostream>
 
 
 class CSSDriver;
@@ -12,23 +13,38 @@ class CSSDriver;
 struct Stylesheet;
 struct Rule;
 
-typedef std::pair<std::string, std::string> Declaration;
-typedef std::map<std::string, std::string> Declarations;
+struct Declaration : std::pair<std::string, std::string>
+{
+  using std::pair<std::string, std::string>::pair;
+};
 
-typedef std::vector<Rule> Ruleset;
+struct Declarations : std::map<std::string, std::string>
+{
+  using std::map<std::string, std::string>::map;
+};
+
+typedef std::vector<Rule> Rules;
 typedef std::vector<std::string> Selectors;
 
 
 struct Stylesheet
 {
-  Ruleset rules;
+  Rules rules;
 };
 
 struct Rule
 {
-  std::vector<std::string> selectors;
+  Selectors selectors;
   Declarations declarations;
 };
+
+
+std::ostream& operator<<(std::ostream& o, const Stylesheet&);
+std::ostream& operator<<(std::ostream& o, const Rule&);
+std::ostream& operator<<(std::ostream& o, const Rules&);
+std::ostream& operator<<(std::ostream& o, const Declaration&);
+std::ostream& operator<<(std::ostream& o, const Declarations&);
+std::ostream& operator<<(std::ostream& o, const Selectors&);
 
 #endif
 
