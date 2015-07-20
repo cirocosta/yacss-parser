@@ -1,6 +1,6 @@
 # yacss-parser
 
-> A naive C++ HTML parser implementation using Bison and Flex
+> A naive C++ CSS reentrant parser implementation using Bison and Flex
 
 **ATTENTION**: this is NOT a full spec conformant parser. It DOES NOT aim to comply with all of the requirements associated with the roles it partakes in the CSS specification.
 
