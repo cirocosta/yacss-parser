@@ -35,6 +35,8 @@
 %token
   END 0             "End of File (EOF)"
   COMMA             ","
+  LCB               "{"
+  RCB               "}"
 ;
 
 %token <std::string>
@@ -49,7 +51,7 @@
 %type <Stylesheet> stylesheet;
 
 %type <Rule> rule;
-%type <Ruleset> ruleset;
+%type <Rules> rules;
 
 %type <Declaration> declaration;
 %type <Declarations> declarations;
@@ -63,15 +65,18 @@
 
 %start stylesheet;
 
-stylesheet: ruleset {
-                      driver.stylesheet = $1;
+stylesheet: rules {
+                      driver.stylesheet = Stylesheet { $1 };
                       $$ = driver.stylesheet;
                     }
           ;
 
-ruleset: %empty         { $$ = Rule {}; }
-       | rule           { $$ = Rule { $1 }; }
-       | ruleset rule   { $1.push_back($2); $$ = $1; }
+rule: selectors '{' declarations '}'  { $$ = Rule {$1, $3}; }
+    ;
+
+rules: %empty           { $$ = Rules {}; }
+       | rule           { $$ = Rules { $1 }; }
+       | rules rule     { $1.push_back($2); $$ = $1; }
        ;
 
 selector: ELEM
@@ -82,9 +87,6 @@ selector: ELEM
 selectors: selector               { $$ = Selectors{ $1 }; }
          | selectors ',' selector { $1.push_back($3); $$ = $1; }
          ;
-
-rule: selectors '{' declarations '}'  { $$ = Rule {$1, $3}; }
-    ;
 
 declarations: %empty                    { $$ = Declarations {}; }
             | declaration               { $$ = Declarations { $1 }; }

@@ -1,5 +1,5 @@
-#ifndef YAHTML__CSS_HH
-#define YAHTML__CSS_HH
+#ifndef YACSS__CSS_HH
+#define YACSS__CSS_HH
 
 #include <vector>
 #include <map>

@@ -18,7 +18,7 @@ static yy::location loc;
 
 %option noyywrap nounput batch debug noinput
 
-%x TAG
+%x DECL
 
 OWS                 [\t ]*
 COMMA               ","
@@ -65,9 +65,9 @@ CLASS               "."{IDENT}
                 }
 
 <DECL>{DECL_KEY} {
-                  return yy::CSSParser::make_DECL_KEY(
+                    return yy::CSSParser::make_DECL_KEY(
                         std::string(yytext, 0, yyleng-1), loc);
-                }
+                  }
 
 <DECL>{DECL_VAL} {
                     return yy::CSSParser::make_DECL_VAL(

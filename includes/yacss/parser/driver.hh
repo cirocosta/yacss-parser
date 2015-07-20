@@ -1,5 +1,5 @@
-#ifndef YAHTML__DRIVER_HH
-#define YAHTML__DRIVER_HH
+#ifndef YACSS__DRIVER_HH
+#define YACSS__DRIVER_HH
 
 #include <string>
 #include <map>
@@ -7,9 +7,7 @@
 #include "yacss/CSS.hh"
 
 #define YY_DECL \
-  void error(const yy::location& l, const std::string& m);
-  void error(const std::string& m);
-};
+  yy::CSSParser::symbol_type yylex (CSSDriver& driver)
 
 YY_DECL;
 
@@ -18,7 +16,7 @@ typedef struct yy_buffer_state * YY_BUFFER_STATE;
 class CSSDriver
 {
 public:
-  CSS stylesheet;
+  Stylesheet  stylesheet;
   int result;
 
   std::string file;
