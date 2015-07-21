@@ -12,6 +12,7 @@ class CSSDriver;
 
 struct Stylesheet;
 struct Rule;
+struct Selector;
 
 struct Declaration : std::pair<std::string, std::string>
 {
@@ -24,12 +25,14 @@ struct Declarations : std::map<std::string, std::string>
 };
 
 typedef std::vector<Rule> Rules;
+typedef std::vector<Selector> Selectors;
 
-struct Selectors : std::vector<std::string>
+struct Selector
 {
-  using std::vector<std::string>::vector;
+  std::string tag;
+  std::string id;
+  std::vector<std::string> classes;
 };
-
 
 struct Stylesheet
 {
@@ -43,12 +46,13 @@ struct Rule
 };
 
 
-std::ostream& operator<<(std::ostream& o, const Stylesheet&);
-std::ostream& operator<<(std::ostream& o, const Rule&);
-std::ostream& operator<<(std::ostream& o, const Rules&);
-std::ostream& operator<<(std::ostream& o, const Declaration&);
-std::ostream& operator<<(std::ostream& o, const Declarations&);
-std::ostream& operator<<(std::ostream& o, const Selectors&);
+std::ostream& operator<<(std::ostream&, const Stylesheet&);
+std::ostream& operator<<(std::ostream&, const Rule&);
+std::ostream& operator<<(std::ostream&, const Rules&);
+std::ostream& operator<<(std::ostream&, const Declaration&);
+std::ostream& operator<<(std::ostream&, const Declarations&);
+std::ostream& operator<<(std::ostream&, const Selector&);
+std::ostream& operator<<(std::ostream&, const Selectors&);
 
 #endif
 

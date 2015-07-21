@@ -57,7 +57,7 @@
 %type <Declaration> declaration;
 %type <Declarations> declarations;
 
-%type <std::string> selector;
+%type <Selector> selector;
 %type <Selectors> selectors;
 
 %printer { yyoutput << $$; } <*>;
@@ -86,9 +86,12 @@ selectors: selector               { $$ = Selectors{ $1 }; }
          | selectors ',' selector { $1.push_back($3); $$ = $1; }
          ;
 
-selector: ELEM  { $$ = $1; }
-        | ID    { $$ = $1; }
-        | CLASS { $$ = $1; }
+selector: ELEM            { Selector sel; sel.tag = $1; $$ = sel; }
+        | ID              { Selector sel; sel.id = $1; $$ = sel; }
+        | CLASS           { Selector sel; sel.classes = std::vector<std::string> { $1 }; $$ = sel; }
+        | selector ELEM   { $1.tag = $2; $$ = $1; }
+        | selector ID     { $1.id = $2; $$ = $1; }
+        | selector CLASS  { $1.classes.push_back($2); $$ = $1; }
         ;
 
 

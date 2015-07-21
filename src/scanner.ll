@@ -50,9 +50,17 @@ CLASS               "."{IDENT}
 %}
 
 {ELEM}          return yy::CSSParser::make_ELEM(yytext, loc);
-{ID}            return yy::CSSParser::make_ID(yytext, loc);
-{CLASS}         return yy::CSSParser::make_CLASS(yytext, loc);
+
+{ID}            {
+                  return yy::CSSParser::make_ID(yytext+1, loc);
+                }
+
+{CLASS}         {
+                  return yy::CSSParser::make_CLASS(yytext+1, loc);
+                }
+
 {COMMA}         return yy::CSSParser::make_COMMA(loc);
+
 {OWS}           return yy::CSSParser::make_OWS(loc);
 
 {LCB}           {
