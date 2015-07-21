@@ -105,10 +105,10 @@ TEST(CSS, MultiSelectorWhiteSpaces) {
     "h1.class1.class2#id1   ,\n"
     "h2.class1.class2#id2\t\t,\n"
     "h3.class1.class2#id3\n"
-    "{"
+    "{\n"
       "\tmargin: auto;"
       "\twidth: 50%;"
-      "\theight: 300px;"
+      "\theight: 300px;\n"
     "}";
 
   driver.parse_source(source);
