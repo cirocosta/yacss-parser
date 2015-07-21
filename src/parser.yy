@@ -83,7 +83,7 @@ rule: selectors OWS LCB declarations RCB  { $$ = Rule {$1, $4}; }
 
 
 selectors: selector               { $$ = Selectors{ $1 }; }
-         | selectors ',' selector { $1.push_back($3); $$ = $1; }
+         | selectors COMMA selector { $1.push_back($3); $$ = $1; }
          ;
 
 selector: ELEM            { Selector sel; sel.tag = $1; $$ = sel; }
