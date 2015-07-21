@@ -78,17 +78,20 @@ rules: %empty         { $$ = Rules {}; }
      | rules rule     { $1.push_back($2); $$ = $1; }
      ;
 
-rule: selectors OWS LCB declarations RCB  { $$ = Rule {$1, $4}; }
+rule: selectors OWS LCB declarations RCB { $$ = Rule {$1, $4}; }
     ;
 
 
-selectors: selector               { $$ = Selectors{ $1 }; }
+selectors: selector                 { $$ = Selectors{ $1 }; }
          | selectors COMMA selector { $1.push_back($3); $$ = $1; }
          ;
 
 selector: ELEM            { Selector sel; sel.tag = $1; $$ = sel; }
         | ID              { Selector sel; sel.id = $1; $$ = sel; }
-        | CLASS           { Selector sel; sel.classes = std::vector<std::string> { $1 }; $$ = sel; }
+        | CLASS           { Selector sel;
+                            sel.classes = std::vector<std::string> { $1 };
+                            $$ = sel;
+                          }
         | selector ELEM   { $1.tag = $2; $$ = $1; }
         | selector ID     { $1.id = $2; $$ = $1; }
         | selector CLASS  { $1.classes.push_back($2); $$ = $1; }
@@ -97,10 +100,7 @@ selector: ELEM            { Selector sel; sel.tag = $1; $$ = sel; }
 
 declarations: %empty                    { $$ = Declarations {}; }
             | declaration               { $$ = Declarations { $1 }; }
-            | declarations declaration  {
-                                          $1.emplace($2);
-                                          $$ = $1;
-                                        }
+            | declarations declaration  { $1.emplace($2); $$ = $1; }
             ;
 
 declaration: DECL_KEY DECL_VAL { $$ = Declaration {$1, $2}; }

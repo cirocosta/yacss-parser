@@ -20,8 +20,8 @@ static yy::location loc;
 
 %x DECL
 
-OWS                 [\t ]*
-COMMA               ","
+OWS                 [\t \n]*
+COMMA               {OWS}*","{OWS}*
 LCB                 "{"
 RCB                 "}"
 
