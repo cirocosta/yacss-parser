@@ -20,11 +20,12 @@ static yy::location loc;
 
 %x DECL
 
-OWS                 [\t \n]*
+OWS                 [ \r\n\f\t]*
 COMMA               {OWS}*","{OWS}*
 LCB                 "{"
 RCB                 "}"
 
+NUM                 [0-9]+|[0-9]*"."[0-9]+
 NMSTART             [_a-zA-Z]
 NMCHAR              [_a-zA-Z0-9-]
 
@@ -48,6 +49,8 @@ CLASS               "."{IDENT}
   // Code run each time yylex is called.
   loc.step();
 %}
+
+\/\*[^*]*\*+([^/*][^*]*\*+)*\/{OWS}  {}
 
 {ELEM}          return yy::CSSParser::make_ELEM(yytext, loc);
 

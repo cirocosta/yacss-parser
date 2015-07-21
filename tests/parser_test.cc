@@ -102,6 +102,7 @@ TEST(CSS, MultiSelectorWhiteSpaces) {
   bool debug = false;
   CSSDriver driver (debug, debug);
   const char* source =
+    "/* this is some cool css stuff */\n"
     "h1.class1.class2#id1   ,\n"
     "h2.class1.class2#id2\t\t,\n"
     "h3.class1.class2#id3\n"
