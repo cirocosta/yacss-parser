@@ -148,3 +148,29 @@ TEST(CSS, MultiSelectorWhiteSpaces) {
   EXPECT_EQ(h3.classes[1], "class2");
 }
 
+TEST(CSS, Specificity) {
+  bool debug = false;
+  CSSDriver driver (debug, debug);
+  const char* source =
+    "h1.class#id {"
+      "margin: auto;"
+    "}";
+
+  driver.parse_source(source);
+
+  EXPECT_EQ(driver.stylesheet.rules.size(), 1);
+
+  Rule rule1 = driver.stylesheet.rules.front();
+
+  EXPECT_EQ(rule1.selectors.size(), 1);
+  EXPECT_EQ(rule1.declarations.size(), 1);
+
+  Selector h1 = rule1.selectors[0];
+
+  EXPECT_EQ(h1.tag.empty(), false);
+  EXPECT_EQ(h1.id.empty(), false);
+  EXPECT_EQ(h1.classes.size(), 1);
+
+  EXPECT_EQ(h1.specificity, 111);
+}
+

@@ -28,11 +28,13 @@ struct Declarations : std::map<std::string, std::string>
 typedef std::vector<Rule> Rules;
 typedef std::vector<Selector> Selectors;
 
+
 struct Selector
 {
   std::string tag;
   std::string id;
   std::vector<std::string> classes;
+  unsigned specificity = 0;
 };
 
 struct Stylesheet
