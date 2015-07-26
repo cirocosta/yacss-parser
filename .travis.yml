@@ -7,31 +7,38 @@ addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
+      - llvm-toolchain-precise-3.6
+      - kalakris-cmake
     packages:
-      - gcc-4.8
-      - g++-4.8
-      - clang
+      - cmake
+      - gcc-4.9
+      - g++-4.9
+      - clang-3.6
       - m4
       - valgrind
 
 install:
-  - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
+  - if [ "$CXX" = "g++" ]; then export CXX="g++-4.9" CC="gcc-4.9"; fi
+  - if [ "$CXX" = "clang++" ]; then export CXX="clang++-3.6" CC="clang-3.6"; fi
   - wget http://ftp.gnu.org/gnu/bison/bison-3.0.4.tar.gz
   - tar -xvzf bison-3.0.4.tar.gz
   - cd bison-3.0.4
   - ./configure
   - make
-  - export BISON_EXEC=$(pwd)/src/bison
+  - export BISON_EXEC_PATH=$(pwd)/src
   - export BISON_PKGDATADIR=$(pwd)/data
+  - export CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:${BISON_EXEC_PATH}
   - cd ..
 
 before_script:
   - mkdir build
   - cd build
-  - cmake -DBISON_EXECUTABLE=${BISON_EXEC} ..
+  - cmake -Dtest=ON ..
+  - make
 
 script:
-  - make && make test && valgrind --leak-check=yes --error-exitcode=1 ./tests/parser_test
+  - valgrind --leak-check=yes --error-exitcode=1 ./tests/css_test
+  - valgrind --leak-check=yes --error-exitcode=1 ./tests/parser_test
 
 notifications:
   email: false

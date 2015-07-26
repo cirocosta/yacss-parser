@@ -2,6 +2,7 @@
 %require "3.0.4"
 
 %defines
+%define api.namespace {yacss}
 %define parser_class_name {CSSParser}
 %define api.token.constructor
 %define api.value.type variant
@@ -108,7 +109,7 @@ declaration: DECL_KEY DECL_VAL { $$ = Declaration {$1, $2}; }
 
 %%
 
-void yy::CSSParser::error (const location_type& l, const std::string& m)
+void yacss::CSSParser::error (const location_type& l, const std::string& m)
 {
   driver.error(l, m);
 }

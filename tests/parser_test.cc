@@ -1,6 +1,8 @@
 #include "gtest/gtest.h"
 #include "yacss/parser/driver.hh"
 
+using namespace yacss;
+
 TEST(CSS, SimpleRule) {
   bool debug = false;
   CSSDriver driver (debug, debug);

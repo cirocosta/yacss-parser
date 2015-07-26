@@ -12,7 +12,7 @@
 #define yywrap() 1
 
 // The location of the current token.
-static yy::location loc;
+static yacss::location loc;
 
 %}
 
@@ -52,47 +52,47 @@ CLASS               "."{IDENT}
 
 \/\*[^*]*\*+([^/*][^*]*\*+)*\/{OWS}  {}
 
-{ELEM}          return yy::CSSParser::make_ELEM(yytext, loc);
+{ELEM}          return yacss::CSSParser::make_ELEM(yytext, loc);
 
 {ID}            {
-                  return yy::CSSParser::make_ID(yytext+1, loc);
+                  return yacss::CSSParser::make_ID(yytext+1, loc);
                 }
 
 {CLASS}         {
-                  return yy::CSSParser::make_CLASS(yytext+1, loc);
+                  return yacss::CSSParser::make_CLASS(yytext+1, loc);
                 }
 
-{COMMA}         return yy::CSSParser::make_COMMA(loc);
+{COMMA}         return yacss::CSSParser::make_COMMA(loc);
 
-{OWS}           return yy::CSSParser::make_OWS(loc);
+{OWS}           return yacss::CSSParser::make_OWS(loc);
 
 {LCB}           {
                   BEGIN(DECL);
-                  return yy::CSSParser::make_LCB(loc);
+                  return yacss::CSSParser::make_LCB(loc);
                 }
 
 <DECL>{RCB}     {
                   BEGIN(INITIAL);
-                  return yy::CSSParser::make_RCB(loc);
+                  return yacss::CSSParser::make_RCB(loc);
                 }
 
 <DECL>{DECL_KEY} {
-                    return yy::CSSParser::make_DECL_KEY(
+                    return yacss::CSSParser::make_DECL_KEY(
                         std::string(yytext, 0, yyleng-1), loc);
                   }
 
 <DECL>{DECL_VAL} {
-                    return yy::CSSParser::make_DECL_VAL(
+                    return yacss::CSSParser::make_DECL_VAL(
                         std::string(yytext, 1, yyleng-2), loc);
                   }
 
 .               driver.error(loc, "Invalid Character");
 
-<<EOF>>         return yy::CSSParser::make_END(loc);
+<<EOF>>         return yacss::CSSParser::make_END(loc);
 
 %%
 
-void CSSDriver::scan_begin_source (const std::string& source)
+void yacss::CSSDriver::scan_begin_source (const std::string& source)
 {
   src = new char[source.size() + 1];
   std::copy(source.begin(), source.end(), src);
@@ -103,13 +103,13 @@ void CSSDriver::scan_begin_source (const std::string& source)
 }
 
 
-void CSSDriver::scan_end_source ()
+void yacss::CSSDriver::scan_end_source ()
 {
   yy_delete_buffer(buffer);
   delete[] src;
 }
 
-void CSSDriver::scan_begin ()
+void yacss::CSSDriver::scan_begin ()
 {
   yy_flex_debug = trace_scanning;
 
@@ -122,12 +122,12 @@ void CSSDriver::scan_begin ()
   yy_switch_to_buffer(buffer);
 }
 
-void CSSDriver::scan_destroy ()
+void yacss::CSSDriver::scan_destroy ()
 {
   yylex_destroy();
 }
 
-void CSSDriver::scan_end ()
+void yacss::CSSDriver::scan_end ()
 {
   yy_flush_buffer(buffer);
   yy_delete_buffer(buffer);

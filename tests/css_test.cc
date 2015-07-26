@@ -3,6 +3,8 @@
 #include "gtest/gtest.h"
 #include "yacss/CSS.hh"
 
+using namespace yacss;
+
 TEST(CSS, SimpleRule) {
   std::ostringstream actual;
   const char* expected =

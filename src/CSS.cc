@@ -1,5 +1,6 @@
 #include "yacss/CSS.hh"
 
+namespace yacss {
 
 std::ostream& operator<<(std::ostream& o, const Stylesheet& ss)
 {
@@ -64,4 +65,5 @@ std::ostream& operator<<(std::ostream& o, const Selectors& selectors)
   return o;
 }
 
+}; // !ns yacss
 

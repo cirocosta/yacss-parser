@@ -7,6 +7,7 @@
 #include <utility>
 #include <iostream>
 
+namespace yacss {
 
 class CSSDriver;
 
@@ -53,6 +54,8 @@ std::ostream& operator<<(std::ostream&, const Declaration&);
 std::ostream& operator<<(std::ostream&, const Declarations&);
 std::ostream& operator<<(std::ostream&, const Selector&);
 std::ostream& operator<<(std::ostream&, const Selectors&);
+
+}; // !ns yacss
 
 #endif
 

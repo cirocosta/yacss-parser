@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 
-# Turn it OFF: -Dtest=OFF
-option(test "Include Tests." ON)
+# Turn it ON: -Dtest=ON
+option(test "Include Tests." OFF)
 
 set(PROJECT_NAME yacss-parser)
 

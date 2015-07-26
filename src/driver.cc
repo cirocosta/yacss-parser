@@ -1,6 +1,8 @@
 #include "yacss/parser/driver.hh"
 #include "parser.hh"
 
+namespace yacss {
+
 CSSDriver::CSSDriver ()
   : trace_scanning(false), trace_parsing(false)
 {
@@ -20,7 +22,7 @@ void CSSDriver::parse (const std::string &f)
 {
   file = f;
   scan_begin();
-  yy::CSSParser parser(*this);
+  CSSParser parser(*this);
   parser.set_debug_level(trace_parsing);
   result = parser.parse();
   scan_end();
@@ -29,13 +31,13 @@ void CSSDriver::parse (const std::string &f)
 void CSSDriver::parse_source (const std::string &source)
 {
   scan_begin_source(source);
-  yy::CSSParser parser(*this);
+  CSSParser parser(*this);
   parser.set_debug_level(trace_parsing);
   result = parser.parse();
   scan_end_source();
 }
 
-void CSSDriver::error (const yy::location& l, const std::string& m)
+void CSSDriver::error (const location& l, const std::string& m)
 {
   std::cerr << l << ": " << m << std::endl;
 }
@@ -44,4 +46,6 @@ void CSSDriver::error (const std::string& m)
 {
   std::cerr << m << std::endl;
 }
+
+}; // !ns yacss
 
