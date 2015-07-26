@@ -174,3 +174,47 @@ TEST(CSS, Specificity) {
   EXPECT_EQ(h1.specificity, 111);
 }
 
+TEST(CSS, MultipleSelectorsSpecificity) {
+  bool debug = false;
+  CSSDriver driver (debug, debug);
+  const char* source =
+    "/* this is some cool css stuff */\n"
+    "h1.class1.class2#id1   ,\n"
+    "h2.class1.class2#id2\t\t,\n"
+    "h11\n"
+    "{\n"
+      "\tmargin: auto;"
+    "}";
+
+  driver.parse_source(source);
+
+  EXPECT_EQ(driver.stylesheet.rules.size(), 1);
+
+  Rule rule1 = driver.stylesheet.rules[0];
+
+  EXPECT_EQ(rule1.selectors.size(), 3);
+  EXPECT_EQ(rule1.declarations.size(), 1);
+
+  Selector h1 = rule1.selectors[0];
+  EXPECT_EQ(h1.tag, "h1");
+  EXPECT_EQ(h1.id, "id1");
+  EXPECT_EQ(h1.classes.size(), 2);
+  EXPECT_EQ(h1.classes[0], "class1");
+  EXPECT_EQ(h1.classes[1], "class2");
+  EXPECT_EQ(h1.specificity, 121);
+
+  Selector h2 = rule1.selectors[1];
+  EXPECT_EQ(h2.tag, "h2");
+  EXPECT_EQ(h2.id, "id2");
+  EXPECT_EQ(h2.classes.size(), 2);
+  EXPECT_EQ(h2.classes[0], "class1");
+  EXPECT_EQ(h2.classes[1], "class2");
+  EXPECT_EQ(h2.specificity, 121);
+
+  Selector h11 = rule1.selectors[2];
+  EXPECT_EQ(h11.tag, "h11");
+  EXPECT_EQ(h11.id.empty(), true);
+  EXPECT_EQ(h11.classes.size(), 0);
+  EXPECT_EQ(h11.specificity, 1);
+}
+
