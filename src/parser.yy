@@ -30,6 +30,8 @@
 %code
 {
 #include "yacss/parser/driver.hh"
+#define YY_DECL yacss::CSSParser::symbol_type yylex (yacss::CSSDriver& driver)
+YY_DECL;
 }
 
 %define api.token.prefix {HTML_}
@@ -130,4 +132,6 @@ void yacss::CSSParser::error (const location_type& l, const std::string& m)
 {
   driver.error(l, m);
 }
+
+#undef YY_DECL
 

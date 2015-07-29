@@ -6,10 +6,8 @@
 #include "parser.hh"
 #include "yacss/CSS.hh"
 
-#define YY_DECL \
-  yacss::CSSParser::symbol_type yylex (yacss::CSSDriver& driver)
-
-YY_DECL;
+/* #define YY_DECL yacss::CSSParser::symbol_type yylex (yacss::CSSDriver& driver) */
+/* YY_DECL; */
 
 namespace yacss {
 

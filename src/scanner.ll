@@ -10,6 +10,8 @@
 
 #undef yywrap
 #define yywrap() 1
+#define YY_DECL yacss::CSSParser::symbol_type yylex (yacss::CSSDriver& driver)
+YY_DECL;
 
 // The location of the current token.
 static yacss::location loc;
@@ -133,4 +135,6 @@ void yacss::CSSDriver::scan_end ()
   yy_delete_buffer(buffer);
   fclose(yyin);
 }
+
+#undef YY_DECL
 
