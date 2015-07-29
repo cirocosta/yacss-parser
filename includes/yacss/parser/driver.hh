@@ -6,9 +6,6 @@
 #include "parser.hh"
 #include "yacss/CSS.hh"
 
-/* #define YY_DECL yacss::CSSParser::symbol_type yylex (yacss::CSSDriver& driver) */
-/* YY_DECL; */
-
 namespace yacss {
 
 typedef struct yy_buffer_state * YY_BUFFER_STATE;
@@ -41,7 +38,7 @@ public:
   void scan_end_source();
   void scan_destroy();
 
-  void error(const location& l, const std::string& m);
+  void error(const yacss::location& l, const std::string& m);
   void error(const std::string& m);
 };
 

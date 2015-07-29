@@ -37,7 +37,7 @@ void CSSDriver::parse_source (const std::string &source)
   scan_end_source();
 }
 
-void CSSDriver::error (const location& l, const std::string& m)
+void CSSDriver::error (const yacss::location& l, const std::string& m)
 {
   std::cerr << l << ": " << m << std::endl;
 }
