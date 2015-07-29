@@ -30,6 +30,12 @@ $ make && make test
 export BISON_PKGDATADIR=/usr/local/share/bison/data
 ```
 
+## CMake
+
+```
+yacss-parser_INCLUDES
+yacss-parser_LIBS
+```
 
 ## LICENSE
 

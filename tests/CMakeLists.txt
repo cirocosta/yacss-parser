@@ -1,12 +1,10 @@
+include_directories(${yacss-parser_INCLUDES})
+
 add_executable(parser_test parser_test.cc)
 add_executable(css_test css_test.cc)
 
-target_link_libraries(parser_test gtest gtest_main
-  yacssparser
-)
-target_link_libraries(css_test gtest gtest_main
-  yacssparser
-)
+target_link_libraries(parser_test gtest gtest_main ${yacss-parser_LIBS})
+target_link_libraries(css_test gtest gtest_main ${yacss-parser_LIBS})
 
 add_test(NAME parser_test COMMAND parser_test)
 add_test(NAME css_test COMMAND css_test)

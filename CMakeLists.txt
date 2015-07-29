@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 2.8.11)
 
 # Turn it ON: -Dtest=ON
 option(test "Include Tests." OFF)
@@ -21,17 +21,31 @@ else()
     message(STATUS "Please use a different C++ compiler.")
 endif()
 
+#     --    source
+
 find_package(BISON)
 find_package(FLEX)
 
 
-include_directories(
-  ${CMAKE_CURRENT_BINARY_DIR}/src
-  ${PROJECT_SOURCE_DIR}/src
-  ${PROJECT_SOURCE_DIR}/includes
+set(INCLUDES ${PROJECT_SOURCE_DIR}/includes)
+add_subdirectory(src/)
+
+
+#    --    global variables
+
+set(${PROJECT_NAME}_INCLUDES ${INCLUDES}
+    CACHE INTERNAL
+    "${PROJECT_NAME}: Include Directories"
+    FORCE
 )
 
-add_subdirectory(src/)
+set(${PROJECT_NAME}_LIBS ${LIBS}
+    CACHE INTERNAL
+    "${PROJECT_NAME}: Link Libraries"
+    FORCE
+)
+
+#     --    test
 
 if (test)
   add_subdirectory(lib/googletest)
