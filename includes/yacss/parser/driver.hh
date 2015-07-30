@@ -3,7 +3,7 @@
 
 #include <string>
 #include <map>
-#include "parser.hh"
+#include "yacss_parser.hh"
 #include "yacss/CSS.hh"
 
 namespace yacss {

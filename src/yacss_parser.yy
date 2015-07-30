@@ -1,7 +1,6 @@
 %skeleton "lalr1.cc" /* -*- C++ -*- */
 %require "3.0.4"
 
-%defines
 %define api.namespace {yacss}
 %define parser_class_name {CSSParser}
 %define api.token.constructor
@@ -17,7 +16,6 @@
 // passing the parsing context
 %param { CSSDriver& driver }
 
-%locations
 %initial-action
 {
   // Initialize the initial location

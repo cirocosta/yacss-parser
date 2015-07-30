@@ -1,0 +1,45 @@
+# Open generated `parser.hh` and fix paths
+
+set(files
+  @CMAKE_CURRENT_BINARY_DIR@/@BISON_HEADERS_PREFIX@_parser.hh
+  @CMAKE_CURRENT_BINARY_DIR@/location.hh
+  @CMAKE_CURRENT_BINARY_DIR@/scanner.cc
+)
+
+foreach(file ${files})
+  file(READ ${file} f0)
+    string(REGEX REPLACE
+      "location\\.hh" "@BISON_HEADERS_PREFIX@_location.hh"
+      f1 "${f0}"
+    )
+
+    string(REGEX REPLACE
+      "stack\\.hh" "@BISON_HEADERS_PREFIX@_stack.hh"
+      f2 "${f1}"
+    )
+
+    string(REGEX REPLACE
+      "position\\.hh" "@BISON_HEADERS_PREFIX@_position.hh"
+      f3 "${f2}"
+    )
+
+  file(WRITE ${file} "${f3}")
+endforeach(file)
+
+# Rename files
+
+file(RENAME
+  @CMAKE_CURRENT_BINARY_DIR@/location.hh
+  @CMAKE_CURRENT_BINARY_DIR@/@BISON_HEADERS_PREFIX@_location.hh
+)
+
+file(RENAME
+  @CMAKE_CURRENT_BINARY_DIR@/position.hh
+  @CMAKE_CURRENT_BINARY_DIR@/@BISON_HEADERS_PREFIX@_position.hh
+)
+
+file(RENAME
+  @CMAKE_CURRENT_BINARY_DIR@/stack.hh
+  @CMAKE_CURRENT_BINARY_DIR@/@BISON_HEADERS_PREFIX@_stack.hh
+)
+

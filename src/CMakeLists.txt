@@ -1,4 +1,4 @@
-BISON_TARGET(MyParser parser.yy ${CMAKE_CURRENT_BINARY_DIR}/parser.cc COMPILE_FLAGS "-y")
+BISON_TARGET(MyParser yacss_parser.yy ${CMAKE_CURRENT_BINARY_DIR}/yacss_parser.cc)
 FLEX_TARGET(MyScanner scanner.ll ${CMAKE_CURRENT_BINARY_DIR}/scanner.cc)
 ADD_FLEX_BISON_DEPENDENCY(MyScanner MyParser)
 
@@ -12,5 +12,19 @@ add_library(yacssparser
   CSS.cc
 )
 
-SET(LIBS "yacssparser" PARENT_SCOPE)
+set(BISON_HEADERS_PREFIX yacss)
+
+configure_file(
+  ${PROJECT_SOURCE_DIR}/cmake/fix_bison_headers.cmake.in
+  ${CMAKE_CURRENT_BINARY_DIR}/fix_bison_headers.cmake
+  @ONLY
+)
+
+add_custom_command(
+  TARGET yacssparser PRE_BUILD
+  COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/fix_bison_headers.cmake
+)
+
+
+set(LIBS "yacssparser" PARENT_SCOPE)
 

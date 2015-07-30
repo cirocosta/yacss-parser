@@ -6,7 +6,7 @@
 #include <string>
 
 #include "yacss/parser/driver.hh"
-#include "parser.hh"
+#include "yacss_parser.hh"
 
 #undef yywrap
 #define yywrap() 1
