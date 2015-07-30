@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <map>
+#include <memory>
 #include <string>
 #include <utility>
 #include <iostream>
@@ -20,13 +21,14 @@ struct Declaration : std::pair<std::string, std::string>
   using std::pair<std::string, std::string>::pair;
 };
 
-struct Declarations : std::map<std::string, std::string>
+struct DeclarationContainer : std::map<std::string, std::string>
 {
   using std::map<std::string, std::string>::map;
 };
 
-typedef std::vector<Rule> Rules;
-typedef std::vector<Selector> Selectors;
+typedef std::shared_ptr<Rule> RulePtr;
+typedef std::vector<RulePtr> RulePtrContainer;
+typedef std::vector<Selector> SelectorContainer;
 
 
 struct Selector
@@ -49,23 +51,28 @@ struct Selector
 
 struct Stylesheet
 {
-  Rules rules;
+  RulePtrContainer rules;
 };
 
 struct Rule
 {
-  Selectors selectors;
-  Declarations declarations;
+  SelectorContainer selectors;
+  DeclarationContainer declarations;
+
+  explicit Rule (SelectorContainer sel, DeclarationContainer decl)
+    : selectors(sel), declarations(decl)
+  {}
 };
 
 
 std::ostream& operator<<(std::ostream&, const Stylesheet&);
 std::ostream& operator<<(std::ostream&, const Rule&);
-std::ostream& operator<<(std::ostream&, const Rules&);
+std::ostream& operator<<(std::ostream&, const RulePtrContainer&);
+std::ostream& operator<<(std::ostream&, const RulePtr&);
 std::ostream& operator<<(std::ostream&, const Declaration&);
-std::ostream& operator<<(std::ostream&, const Declarations&);
+std::ostream& operator<<(std::ostream&, const DeclarationContainer&);
 std::ostream& operator<<(std::ostream&, const Selector&);
-std::ostream& operator<<(std::ostream&, const Selectors&);
+std::ostream& operator<<(std::ostream&, const SelectorContainer&);
 
 }; // !ns yacss
 

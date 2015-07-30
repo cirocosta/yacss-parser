@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 #include <functional>
 #include <algorithm>
 #include <sstream>
@@ -18,16 +19,16 @@ TEST(CSSPrinting, SimpleRule) {
   Selector h1;
   h1.tag = "h1";
 
-  Selectors selectors { h1 };
-  Rule rule { selectors, Declarations {decl} };
-  Stylesheet ss { Rules {rule} };
+  SelectorContainer selectors { h1 };
+  RulePtr rule = std::make_shared<Rule>(selectors, DeclarationContainer {decl});
+  Stylesheet ss { RulePtrContainer{rule} };
 
   actual << ss;
 
   EXPECT_EQ(expected, actual.str());
 }
 
-TEST(Selectors, Sorting) {
+TEST(SelectorContainer, Sorting) {
   Selector sel1;
   sel1.specificity = 100;
 
@@ -37,7 +38,7 @@ TEST(Selectors, Sorting) {
   Selector sel3;
   sel3.specificity = 300;
 
-  Selectors selectors {sel1, sel3, sel2};
+  SelectorContainer selectors {sel1, sel3, sel2};
   std::sort(selectors.begin(), selectors.end(), std::greater<Selector>());
 
   EXPECT_EQ(sel3.specificity, selectors[0].specificity);

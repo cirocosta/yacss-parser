@@ -18,7 +18,14 @@ std::ostream& operator<<(std::ostream& o, const Rule& rule)
   return o;
 }
 
-std::ostream& operator<<(std::ostream& o, const Rules& rules)
+std::ostream& operator<<(std::ostream& o, const RulePtr& rule)
+{
+  o << *rule;
+
+  return o;
+}
+
+std::ostream& operator<<(std::ostream& o, const RulePtrContainer& rules)
 {
   for (const auto& rule : rules)
     o << rule << std::endl;
@@ -33,7 +40,7 @@ std::ostream& operator<<(std::ostream& o, const Declaration& declaration)
   return o;
 }
 
-std::ostream& operator<<(std::ostream& o, const Declarations& declarations)
+std::ostream& operator<<(std::ostream& o, const DeclarationContainer& declarations)
 {
   for (const auto& declaration : declarations)
     o << declaration;
@@ -57,7 +64,7 @@ std::ostream& operator<<(std::ostream& o, const Selector& selector)
   return o;
 }
 
-std::ostream& operator<<(std::ostream& o, const Selectors& selectors)
+std::ostream& operator<<(std::ostream& o, const SelectorContainer& selectors)
 {
   for (const auto& selector : selectors)
     o << selector << " ";

@@ -12,6 +12,7 @@
 {
 #include <string>
 #include <functional>
+#include <memory>
 #include "yacss/CSS.hh"
 }
 
@@ -54,14 +55,14 @@ YY_DECL;
 
 %type <Stylesheet> stylesheet;
 
-%type <Rule> rule;
-%type <Rules> rules;
+%type <RulePtr> rule;
+%type <RulePtrContainer> rules;
 
 %type <Declaration> declaration;
-%type <Declarations> declarations;
+%type <DeclarationContainer> declarations;
 
 %type <Selector> selector;
-%type <Selectors> selectors;
+%type <SelectorContainer> selectors;
 
 %printer { yyoutput << $$; } <*>;
 
@@ -69,66 +70,72 @@ YY_DECL;
 
 %start stylesheet;
 
-stylesheet: rules {
-                    driver.stylesheet = Stylesheet { $1 };
-                    $$ = driver.stylesheet;
-                  }
-          ;
+stylesheet
+  : rules {
+  driver.stylesheet = Stylesheet { $1 };
+  $$ = driver.stylesheet;
+          }
+  ;
 
 
-rules: %empty         { $$ = Rules {}; }
-     | rule           { $$ = Rules { $1 }; }
-     | rules rule     { $1.push_back($2); $$ = $1; }
-     ;
+rules
+  : %empty         { $$ = RulePtrContainer {}; }
+  | rule           { $$ = RulePtrContainer { $1 }; }
+  | rules rule     { $1.push_back($2); $$ = $1; }
+  ;
 
 rule
   : selectors OWS LCB declarations RCB {
-    std::sort($1.begin(), $1.end(), std::greater<Selector>());
-    $$ = Rule {$1, $4};
+  std::sort($1.begin(), $1.end(), std::greater<Selector>());
+  $$ = std::make_shared<Rule>($1, $4);
                                        }
   ;
 
 
-selectors: selector                 { $$ = Selectors{ $1 }; }
-         | selectors COMMA selector { $1.push_back($3); $$ = $1; }
-         ;
+selectors
+  : selector                 { $$ = SelectorContainer{ $1 }; }
+  | selectors COMMA selector { $1.push_back($3); $$ = $1; }
+  ;
 
-selector: ELEM            {
-        Selector sel;
+selector
+  : ELEM            {
+  Selector sel;
 
-        sel.tag = $1; sel.specificity += 1;
-        $$ = sel;
-                          }
-        | ID              {
-        Selector sel;
+  sel.tag = $1; sel.specificity += 1;
+  $$ = sel;
+                    }
+  | ID              {
+  Selector sel;
 
-        sel.id = $1; sel.specificity += 100;
-        $$ = sel;
-                          }
-        | CLASS           {
-        Selector sel;
+  sel.id = $1; sel.specificity += 100;
+  $$ = sel;
+                    }
+  | CLASS           {
+  Selector sel;
 
-        sel.specificity += 10;
-        sel.classes = std::vector<std::string> { $1 };
-        $$ = sel;
-                          }
-        | selector ELEM   { $1.tag = $2; $1.specificity += 1; $$ = $1; }
-        | selector ID     { $1.id = $2; $1.specificity += 100; $$ = $1; }
-        | selector CLASS  {
-        $1.classes.push_back($2);
-        $1.specificity += 10;
-        $$ = $1;
-                          }
-        ;
+  sel.specificity += 10;
+  sel.classes = std::vector<std::string> { $1 };
+  $$ = sel;
+                    }
+  | selector ELEM   { $1.tag = $2; $1.specificity += 1; $$ = $1; }
+  | selector ID     { $1.id = $2; $1.specificity += 100; $$ = $1; }
+  | selector CLASS  {
+  $1.classes.push_back($2);
+  $1.specificity += 10;
+  $$ = $1;
+                    }
+  ;
 
 
-declarations: %empty                    { $$ = Declarations {}; }
-            | declaration               { $$ = Declarations { $1 }; }
-            | declarations declaration  { $1.emplace($2); $$ = $1; }
-            ;
+declarations
+  : %empty                    { $$ = DeclarationContainer {}; }
+  | declaration               { $$ = DeclarationContainer { $1 }; }
+  | declarations declaration  { $1.emplace($2); $$ = $1; }
+  ;
 
-declaration: DECL_KEY DECL_VAL { $$ = Declaration {$1, $2}; }
-           ;
+declaration
+  : DECL_KEY DECL_VAL { $$ = Declaration {$1, $2}; }
+  ;
 
 %%
 
