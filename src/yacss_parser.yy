@@ -1,6 +1,7 @@
 %skeleton "lalr1.cc" /* -*- C++ -*- */
 %require "3.0.4"
 
+%define api.prefix {yacss}
 %define api.namespace {yacss}
 %define parser_class_name {CSSParser}
 %define api.token.constructor

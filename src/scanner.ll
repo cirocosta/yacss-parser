@@ -19,6 +19,7 @@ static yacss::location loc;
 %}
 
 %option noyywrap nounput batch debug noinput
+%option prefix="yacss"
 
 %x DECL
 
