@@ -11,6 +11,7 @@
 %code requires
 {
 #include <string>
+#include <functional>
 #include "yacss/CSS.hh"
 }
 
@@ -80,8 +81,12 @@ rules: %empty         { $$ = Rules {}; }
      | rules rule     { $1.push_back($2); $$ = $1; }
      ;
 
-rule: selectors OWS LCB declarations RCB { $$ = Rule {$1, $4}; }
-    ;
+rule
+  : selectors OWS LCB declarations RCB {
+    std::sort($1.begin(), $1.end(), std::greater<Selector>());
+    $$ = Rule {$1, $4};
+                                       }
+  ;
 
 
 selectors: selector                 { $$ = Selectors{ $1 }; }

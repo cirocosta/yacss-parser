@@ -179,8 +179,8 @@ TEST(CSS, MultipleSelectorsSpecificity) {
   CSSDriver driver (debug, debug);
   const char* source =
     "/* this is some cool css stuff */\n"
-    "h1.class1.class2#id1   ,\n"
     "h2.class1.class2#id2\t\t,\n"
+    "h1.class1.class2.class3#id1   ,\n"
     "h11\n"
     "{\n"
       "\tmargin: auto;"
@@ -198,10 +198,11 @@ TEST(CSS, MultipleSelectorsSpecificity) {
   Selector h1 = rule1.selectors[0];
   EXPECT_EQ(h1.tag, "h1");
   EXPECT_EQ(h1.id, "id1");
-  EXPECT_EQ(h1.classes.size(), 2);
+  EXPECT_EQ(h1.classes.size(), 3);
   EXPECT_EQ(h1.classes[0], "class1");
   EXPECT_EQ(h1.classes[1], "class2");
-  EXPECT_EQ(h1.specificity, 121);
+  EXPECT_EQ(h1.classes[2], "class3");
+  EXPECT_EQ(h1.specificity, 131);
 
   Selector h2 = rule1.selectors[1];
   EXPECT_EQ(h2.tag, "h2");

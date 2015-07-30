@@ -35,6 +35,16 @@ struct Selector
   std::string id;
   std::vector<std::string> classes;
   unsigned specificity = 0;
+
+  inline bool operator< (const Selector& sel) const
+  {
+    return specificity < sel.specificity;
+  }
+
+  inline bool operator> (const Selector& sel) const
+  {
+    return specificity > sel.specificity;
+  }
 };
 
 struct Stylesheet
