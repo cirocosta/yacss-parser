@@ -15,29 +15,29 @@ TEST(CSS, SimpleRule) {
 
   driver.parse_source(source);
 
-  /* EXPECT_EQ(driver.stylesheet.rules.size(), 1); */
+  EXPECT_EQ(driver.stylesheet.rules.size(), 1);
 
-  /* RulePtr rule1 = driver.stylesheet.rules.front(); */
+  RulePtr rule1 = driver.stylesheet.rules.front();
 
-  /* EXPECT_EQ(rule1->selectors.size(), 1); */
-  /* EXPECT_EQ(rule1->declarations.size(), 3); */
+  EXPECT_EQ(rule1->selectors.size(), 1);
+  EXPECT_EQ(rule1->declarations.size(), 3);
 
-  /* EXPECT_EQ(rule1->declarations["margin-right"].type, ValueType::Keyword); */
-  /* EXPECT_EQ(rule1->declarations["margin-right"].get<KeywordValue>().val, "auto"); */
+  EXPECT_EQ(rule1->declarations["margin-right"].type, ValueType::Keyword);
+  EXPECT_EQ(rule1->declarations["margin-right"].get<KeywordValue>().val, "auto");
 
-  /* EXPECT_EQ(rule1->declarations["margin-left"].type, ValueType::Length); */
-  /* EXPECT_EQ(rule1->declarations["margin-left"].get<LengthValue>().val, 200); */
+  EXPECT_EQ(rule1->declarations["margin-left"].type, ValueType::Length);
+  EXPECT_EQ(rule1->declarations["margin-left"].get<LengthValue>().val, 1000);
 
-  /* EXPECT_EQ(rule1->declarations["color"].type, ValueType::ColorRGBA); */
-  /* EXPECT_EQ(rule1->declarations["color"].get<ColorRGBAValue>().r, 255); */
-  /* EXPECT_EQ(rule1->declarations["color"].get<ColorRGBAValue>().g, 255); */
-  /* EXPECT_EQ(rule1->declarations["color"].get<ColorRGBAValue>().b, 255); */
+  EXPECT_EQ(rule1->declarations["color"].type, ValueType::ColorRGBA);
+  EXPECT_EQ(rule1->declarations["color"].get<ColorRGBAValue>().r, 255);
+  EXPECT_EQ(rule1->declarations["color"].get<ColorRGBAValue>().g, 255);
+  EXPECT_EQ(rule1->declarations["color"].get<ColorRGBAValue>().b, 255);
 
-  /* Selector h1 = rule1->selectors[0]; */
+  Selector h1 = rule1->selectors[0];
 
-  /* EXPECT_EQ(h1.tag, "h1"); */
-  /* EXPECT_TRUE(h1.classes.empty()); */
-  /* EXPECT_TRUE(h1.id.empty()); */
+  EXPECT_EQ(h1.tag, "h1");
+  EXPECT_TRUE(h1.classes.empty());
+  EXPECT_TRUE(h1.id.empty());
 }
 
 /* TEST(CSS, SimpleRuleWithSelectorDiscrimination) { */

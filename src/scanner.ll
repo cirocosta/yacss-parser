@@ -89,20 +89,23 @@ CLASS               "."{IDENT}
                       std::string(yytext, 0, yyleng-1), loc);
                   }
 
-<DECL>{DECL_STR} {
-                    return yacss::CSSParser::make_DECL_VAL(
-                      yacss::KeywordValue(std::string(yytext, 1, yyleng-2)), loc);
-                 }
-
 <DECL>{DECL_PX} {
+                    // FIXME
                     return yacss::CSSParser::make_DECL_VAL(
                       yacss::LengthValue(1000, "px"), loc);
                 }
 
 <DECL>{DECL_HEXC} {
+                    // FIXME
                     return yacss::CSSParser::make_DECL_VAL(
                       yacss::ColorRGBAValue(255,255,255), loc);
                   }
+
+<DECL>{DECL_STR} {
+                    return yacss::CSSParser::make_DECL_VAL(
+                      yacss::KeywordValue(std::string(yytext, 1, yyleng-2)), loc);
+                 }
+
 
 .               driver.error(loc, "Invalid Character");
 

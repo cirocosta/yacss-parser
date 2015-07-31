@@ -35,6 +35,7 @@ private:
 public:
   ValueType type;
 
+public:
   CSSBaseValue()
   {
     type = ValueType::Undefined;
@@ -64,6 +65,7 @@ public:
   void swap (CSSBaseValue& other)
   {
     std::swap(this->_ptr, other._ptr);
+    std::swap(this->type, other.type);
   }
 
   ~CSSBaseValue ()

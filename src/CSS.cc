@@ -43,7 +43,7 @@ std::ostream& operator<<(std::ostream& o, const Declaration& declaration)
 std::ostream& operator<<(std::ostream& o, const DeclarationContainer& declarations)
 {
   for (const Declaration& declaration : declarations)
-    o << declaration << std::endl;
+    o << "\t" << declaration << std::endl;
 
   return o;
 }

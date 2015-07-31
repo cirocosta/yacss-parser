@@ -13,7 +13,7 @@ TEST(CSSPrinting, SimpleRule) {
   std::ostringstream actual;
   const char* expected =
     "h1 {\n"
-      "margin: auto;\n"
+      "\tmargin: auto;\n"
     "}\n";
 
   Declaration margin {"margin", KeywordValue("auto")};
@@ -34,9 +34,9 @@ TEST(CSSPrinting, RuleWithMultipleValues) {
   std::ostringstream actual;
   const char* expected =
     "h1 {\n"
-      "color: rgba(10,20,30,255);\n"
-      "margin: auto;\n"
-      "width: 200px;\n"
+      "\tcolor: rgba(10,20,30,255);\n"
+      "\tmargin: auto;\n"
+      "\twidth: 200px;\n"
     "}\n";
 
   Declaration margin { "margin" , KeywordValue("auto") };
