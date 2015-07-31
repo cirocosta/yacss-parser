@@ -9,6 +9,8 @@ add_library(yacssparser
   ${FLEX_MyScanner_OUTPUTS}
   ${BISON_MyParser_OUTPUTS}
   driver.cc
+  CSSBaseValue.cc
+  CSSValues.cc
   CSS.cc
 )
 

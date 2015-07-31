@@ -16,14 +16,13 @@ TEST(CSSPrinting, SimpleRule) {
       "margin: auto;\n"
     "}\n";
 
-  auto val = std::make_shared<Keyword>("auto");
-
-  Declaration decl {"margin", val};
+  Declaration margin {"margin", KeywordValue("auto")};
   Selector h1;
   h1.tag = "h1";
 
   SelectorContainer selectors { h1 };
-  RulePtr rule = std::make_shared<Rule>(selectors, DeclarationContainer {decl});
+  RulePtr rule =
+    std::make_shared<Rule>(selectors, DeclarationContainer {margin});
   Stylesheet ss { RulePtrContainer{rule} };
 
   actual << ss;
@@ -35,28 +34,24 @@ TEST(CSSPrinting, RuleWithMultipleValues) {
   std::ostringstream actual;
   const char* expected =
     "h1 {\n"
+      "color: rgba(10,20,30,255);\n"
       "margin: auto;\n"
       "width: 200px;\n"
-      "color: rgba(10,20,30,255);\n"
     "}\n";
 
-  auto margin_val = std::make_shared<Keyword>("auto");
-  auto width_val = std::make_shared<Length>(200);
-  auto color_val = std::make_shared<ColorRGBA>(10,20,30);
-
-  Declaration margin {"margin", margin_val };
-  Declaration width {"width", width_val };
-  Declaration color {"color", color_val };
+  Declaration margin { "margin" , KeywordValue("auto") };
+  Declaration width  {  "width" , LengthValue(200, "px") };
+  Declaration color  { "color"  , ColorRGBAValue(10, 20, 30) };
 
   Selector h1;
   h1.tag = "h1";
 
   SelectorContainer selectors { h1 };
-  RulePtr rule = std::make_shared<Rule>(selectors,
-                                        DeclarationContainer {margin,width,color});
-  Stylesheet ss { RulePtrContainer{rule} };
+  RulePtr rule = std::make_shared<Rule>(selectors, DeclarationContainer {
+    color, width, margin
+  });
 
-  actual << ss;
+  actual << Stylesheet {RulePtrContainer{rule}};
 
   EXPECT_EQ(expected, actual.str());
 }

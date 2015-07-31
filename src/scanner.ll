@@ -86,31 +86,22 @@ CLASS               "."{IDENT}
 
 <DECL>{DECL_KEY} {
                     return yacss::CSSParser::make_DECL_KEY(
-                        std::string(yytext, 0, yyleng-1), loc);
+                      std::string(yytext, 0, yyleng-1), loc);
                   }
 
 <DECL>{DECL_STR} {
-                    yacss::ValuePtr value= std::make_shared<yacss::Keyword>(
-                        std::string(yytext, 1, yyleng-2)
-                    );
-
-                    return yacss::CSSParser::make_DECL_VAL(value, loc);
+                    return yacss::CSSParser::make_DECL_VAL(
+                      yacss::KeywordValue(std::string(yytext, 1, yyleng-2)), loc);
                  }
 
 <DECL>{DECL_PX} {
-                    yacss::ValuePtr value= std::make_shared<yacss::Length>(
-                       "px", 1000
-                    );
-
-                    return yacss::CSSParser::make_DECL_VAL(value, loc);
+                    return yacss::CSSParser::make_DECL_VAL(
+                      yacss::LengthValue(1000, "px"), loc);
                 }
 
 <DECL>{DECL_HEXC} {
-                    yacss::ValuePtr value= std::make_shared<yacss::ColorRGBA>(
-                        10, 20, 30
-                    );
-
-                    return yacss::CSSParser::make_DECL_VAL(value, loc);
+                    return yacss::CSSParser::make_DECL_VAL(
+                      yacss::ColorRGBAValue(255,255,255), loc);
                   }
 
 .               driver.error(loc, "Invalid Character");

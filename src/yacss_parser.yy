@@ -52,7 +52,7 @@ YY_DECL;
   DECL_KEY
 ;
 
-%token <ValuePtr> DECL_VAL;
+%token <CSSBaseValue> DECL_VAL;
 
 %type <Stylesheet> stylesheet;
 
