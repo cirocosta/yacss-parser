@@ -41,7 +41,8 @@ TEST(CSSPrinting, RuleWithMultipleValues) {
 
   Declaration margin { "margin" , KeywordValue("auto") };
   Declaration width  {  "width" , LengthValue(200, "px") };
-  Declaration color  { "color"  , ColorRGBAValue(10, 20, 30) };
+  Declaration color  { "color"  , ColorRGBAValue(RGBA {10,20,30,255 })
+                     };
 
   Selector h1;
   h1.tag = "h1";

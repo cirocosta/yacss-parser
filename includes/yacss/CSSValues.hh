@@ -2,6 +2,7 @@
 #define YACSS__CSSVALUES_HH
 
 #include <string>
+#include <array>
 #include <sstream>
 
 namespace yacss {
@@ -15,35 +16,65 @@ enum class ValueType : unsigned char
 
 struct KeywordValue
 {
+  std::string val;
+  const ValueType type = ValueType::Keyword;
+
   inline explicit KeywordValue (std::string v)
     : val(v)
   {}
 
-  std::string val;
-  const ValueType type = ValueType::Keyword;
+  inline static std::string parse (const char* text, size_t size)
+  {
+    unsigned i = 0;
+
+    while(!::isgraph(text[++i]));
+
+    return std::string(text+i, size-i-1);
+  }
 };
 
 struct LengthValue
 {
+  int val;
+  std::string unit;
+  const ValueType type = ValueType::Length;
+
   inline explicit LengthValue (int v, std::string u)
     : val(v), unit(u)
   {}
 
-  int val;
-  std::string unit;
-  const ValueType type = ValueType::Length;
+
+  inline static int parse (const char* text, size_t size)
+  {
+    return std::stoi(text);
+  }
 };
 
-typedef unsigned char uchar;
+typedef std::array<unsigned char, 4> RGBA;
 
 struct ColorRGBAValue
 {
-  inline explicit ColorRGBAValue (uchar r_, uchar g_, uchar b_, uchar a_ = 255)
-    : r(r_), g(g_), b(b_), a(a_)
+  RGBA rgba;
+  const ValueType type = ValueType::ColorRGBA;
+
+  inline explicit ColorRGBAValue (RGBA rgba_)
+    : rgba(rgba_)
   {}
 
-  uchar r, g, b, a;
-  const ValueType type = ValueType::ColorRGBA;
+  inline static RGBA parse(const char* text, size_t size)
+  {
+    RGBA rgba;
+    unsigned i = 0;
+
+    while (text[i++] != '#');
+
+    rgba[0] = std::stoul(std::string(text, i, i+2), NULL, 16);
+    rgba[1] = std::stoul(std::string(text, i+2, i+4), NULL, 16);
+    rgba[2] = std::stoul(std::string(text, i+4, i+6), NULL, 16);
+    rgba[3] = 255;
+
+    return rgba;
+  }
 };
 
 std::ostream& operator<< (std::ostream& o, const KeywordValue& k);

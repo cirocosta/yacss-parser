@@ -26,12 +26,11 @@ TEST(CSS, SimpleRule) {
   EXPECT_EQ(rule1->declarations["margin-right"].get<KeywordValue>().val, "auto");
 
   EXPECT_EQ(rule1->declarations["margin-left"].type, ValueType::Length);
-  EXPECT_EQ(rule1->declarations["margin-left"].get<LengthValue>().val, 1000);
+  EXPECT_EQ(rule1->declarations["margin-left"].get<LengthValue>().val, 200);
 
   EXPECT_EQ(rule1->declarations["color"].type, ValueType::ColorRGBA);
-  EXPECT_EQ(rule1->declarations["color"].get<ColorRGBAValue>().r, 255);
-  EXPECT_EQ(rule1->declarations["color"].get<ColorRGBAValue>().g, 255);
-  EXPECT_EQ(rule1->declarations["color"].get<ColorRGBAValue>().b, 255);
+  RGBA expected_color {255, 255, 255 ,255};
+  EXPECT_EQ(rule1->declarations["color"].get<ColorRGBAValue>().rgba, expected_color);
 
   Selector h1 = rule1->selectors[0];
 

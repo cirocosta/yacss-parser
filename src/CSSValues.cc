@@ -17,10 +17,10 @@ std::ostream& operator<< (std::ostream& o, const LengthValue& l)
 
 std::ostream& operator<< (std::ostream& o, const ColorRGBAValue& c)
 {
-  o << "rgba(" << (int)c.r << ","
-               << (int)c.g << ","
-               << (int)c.b << ","
-               << (int)c.a
+  o << "rgba(" << (int)c.rgba[0] << ","
+               << (int)c.rgba[1] << ","
+               << (int)c.rgba[2] << ","
+               << (int)c.rgba[3]
     << ")";
 
   return o;

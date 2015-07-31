@@ -4,6 +4,7 @@
 #include <climits>
 #include <cstdlib>
 #include <string>
+#include <vector>
 
 #include "yacss/parser/driver.hh"
 #include "yacss_parser.hh"
@@ -90,20 +91,26 @@ CLASS               "."{IDENT}
                   }
 
 <DECL>{DECL_PX} {
-                    // FIXME
+                    unsigned val = yacss::LengthValue::parse(yytext, yyleng);
+
                     return yacss::CSSParser::make_DECL_VAL(
-                      yacss::LengthValue(1000, "px"), loc);
+                      yacss::LengthValue(val, "px"), loc);
                 }
 
 <DECL>{DECL_HEXC} {
-                    // FIXME
+                    yacss::RGBA rgba =
+                      yacss::ColorRGBAValue::parse(yytext, yyleng);
+
                     return yacss::CSSParser::make_DECL_VAL(
-                      yacss::ColorRGBAValue(255,255,255), loc);
+                      yacss::ColorRGBAValue(rgba), loc);
                   }
 
 <DECL>{DECL_STR} {
+                    std::string str =
+                      yacss::KeywordValue::parse(yytext, yyleng);
+
                     return yacss::CSSParser::make_DECL_VAL(
-                      yacss::KeywordValue(std::string(yytext, 1, yyleng-2)), loc);
+                      yacss::KeywordValue(str), loc);
                  }
 
 
