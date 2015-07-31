@@ -50,8 +50,9 @@ YY_DECL;
   CLASS
 
   DECL_KEY
-  DECL_VAL
 ;
+
+%token <ValuePtr> DECL_VAL;
 
 %type <Stylesheet> stylesheet;
 

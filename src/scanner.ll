@@ -28,13 +28,18 @@ COMMA               {OWS}*","{OWS}*
 LCB                 "{"
 RCB                 "}"
 
-NUM                 [0-9]+|[0-9]*"."[0-9]+
+HEX                 [0-9a-fA-F]
+DIGIT               [0-9]
 NMSTART             [_a-zA-Z]
 NMCHAR              [_a-zA-Z0-9-]
 
 IDENT               -?{NMSTART}{NMCHAR}*
+
 DECL_KEY            {IDENT}":"
-DECL_VAL            " "[^:]+";"
+
+DECL_STR            " "[^:]+";"
+DECL_PX             " "{DIGIT}+"px;"
+DECL_HEXC           " ""#"{HEX}{6}";"
 
 ELEM                {IDENT}|"*"
 ID                  "#"{IDENT}
@@ -84,9 +89,28 @@ CLASS               "."{IDENT}
                         std::string(yytext, 0, yyleng-1), loc);
                   }
 
-<DECL>{DECL_VAL} {
-                    return yacss::CSSParser::make_DECL_VAL(
-                        std::string(yytext, 1, yyleng-2), loc);
+<DECL>{DECL_STR} {
+                    yacss::ValuePtr value= std::make_shared<yacss::Keyword>(
+                        std::string(yytext, 1, yyleng-2)
+                    );
+
+                    return yacss::CSSParser::make_DECL_VAL(value, loc);
+                 }
+
+<DECL>{DECL_PX} {
+                    yacss::ValuePtr value= std::make_shared<yacss::Length>(
+                       "px", 1000
+                    );
+
+                    return yacss::CSSParser::make_DECL_VAL(value, loc);
+                }
+
+<DECL>{DECL_HEXC} {
+                    yacss::ValuePtr value= std::make_shared<yacss::ColorRGBA>(
+                        10, 20, 30
+                    );
+
+                    return yacss::CSSParser::make_DECL_VAL(value, loc);
                   }
 
 .               driver.error(loc, "Invalid Character");

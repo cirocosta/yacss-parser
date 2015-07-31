@@ -72,5 +72,38 @@ std::ostream& operator<<(std::ostream& o, const SelectorContainer& selectors)
   return o;
 }
 
+std::ostream& operator<<(std::ostream& o, const ValuePtr& v)
+{
+  if (v->type == ValueType::ColorRGBA) {
+    o << *static_cast<ColorRGBA*>(v.get());
+  } else if (v->type == ValueType::Keyword) {
+    o << *static_cast<Keyword*>(v.get());
+  } else if (v->type == ValueType::Length) {
+    o << *static_cast<Length*>(v.get());
+  } else {
+    throw std::runtime_error("ValuePtr: unrecognized type.");
+  }
+
+  return o;
+}
+
+std::ostream& operator<<(std::ostream& o, const Keyword& k)
+{
+  o << k.value;
+  return o;
+}
+
+std::ostream& operator<<(std::ostream& o, const ColorRGBA& c)
+{
+  o << "rgba(" << c.r << "," << c.g << "," << c.b << "," << c.a << ")";
+  return o;
+}
+
+std::ostream& operator<<(std::ostream& o, const Length& l)
+{
+  o << l.value << l.unit;
+  return o;
+}
+
 }; // !ns yacss
 
