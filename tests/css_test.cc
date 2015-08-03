@@ -57,6 +57,52 @@ TEST(CSSPrinting, RuleWithMultipleValues) {
   EXPECT_EQ(expected, actual.str());
 }
 
+TEST(CSSPrinting, UniversalSelector) {
+  std::ostringstream actual;
+  const char* expected =
+    "* {\n"
+      "\tmargin: auto;\n"
+    "}\n";
+
+  Declaration margin {"margin", KeywordValue("auto")};
+  Selector universal;
+  universal.universal = true;
+
+  SelectorContainer selectors { universal };
+  RulePtr rule =
+    std::make_shared<Rule>(selectors, DeclarationContainer {margin});
+  Stylesheet ss { RulePtrContainer{rule} };
+
+  actual << ss;
+
+  EXPECT_EQ(expected, actual.str());
+}
+
+TEST(CSSPrinting, MultipleSelectors) {
+  std::ostringstream actual;
+  const char* expected =
+    "#all,\n"
+    "#ALL {\n"
+      "\tmargin: auto;\n"
+    "}\n";
+
+  Declaration margin {"margin", KeywordValue("auto")};
+  Selector sel_all_upper;
+  Selector sel_all_lower;
+
+  sel_all_lower.id = "all";
+  sel_all_upper.id = "ALL";
+
+  SelectorContainer selectors { sel_all_lower, sel_all_upper };
+  RulePtr rule =
+    std::make_shared<Rule>(selectors, DeclarationContainer {margin});
+  Stylesheet ss { RulePtrContainer{rule} };
+
+  actual << ss;
+
+  EXPECT_EQ(expected, actual.str());
+}
+
 TEST(SelectorContainer, Sorting) {
   Selector sel1;
   sel1.specificity = 100;

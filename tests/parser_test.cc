@@ -234,6 +234,7 @@ TEST(CSS, UniversalSelectorOnly) {
   bool debug = false;
   CSSDriver driver (debug, debug);
   const char* source =
+    "/* no confusion with comments*/"
     "* {"
       "margin: auto;"
     "}";

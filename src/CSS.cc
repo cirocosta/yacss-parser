@@ -50,6 +50,9 @@ std::ostream& operator<<(std::ostream& o, const DeclarationContainer& declaratio
 
 std::ostream& operator<<(std::ostream& o, const Selector& selector)
 {
+  if (selector.universal)
+    o << "*";
+
   if (!selector.tag.empty())
     o << selector.tag;
 
@@ -66,8 +69,11 @@ std::ostream& operator<<(std::ostream& o, const Selector& selector)
 
 std::ostream& operator<<(std::ostream& o, const SelectorContainer& selectors)
 {
-  for (const auto& selector : selectors)
-    o << selector << " ";
+  SelectorContainer::const_iterator it;
+
+  for (it = selectors.begin(); it != selectors.end()-1; it++)
+    o << *it << ",\n";
+  o << *it << " ";
 
   return o;
 }
