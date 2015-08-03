@@ -230,3 +230,28 @@ TEST(CSS, MultipleSelectorsSpecificity) {
   EXPECT_EQ(h11.specificity, 1);
 }
 
+TEST(CSS, UniversalSelectorOnly) {
+  bool debug = false;
+  CSSDriver driver (debug, debug);
+  const char* source =
+    "* {"
+      "margin: auto;"
+    "}";
+
+  driver.parse_source(source);
+
+  ASSERT_EQ(driver.stylesheet.rules.size(), 1);
+
+  RulePtr rule1 = driver.stylesheet.rules.front();
+  ASSERT_EQ(rule1->selectors.size(), 1);
+  ASSERT_EQ(rule1->declarations.size(), 1);
+
+  Selector universal = rule1->selectors[0];
+  ASSERT_EQ(universal.tag.empty(), true);
+  ASSERT_EQ(universal.id.empty(), true);
+  ASSERT_EQ(universal.classes.empty(), true);
+
+  EXPECT_EQ(universal.universal, true);
+  EXPECT_EQ(universal.specificity, 0);
+}
+

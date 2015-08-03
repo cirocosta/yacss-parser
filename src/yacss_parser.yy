@@ -42,6 +42,8 @@ YY_DECL;
   LCB               "{"
   RCB               "}"
   OWS               " "
+
+  STAR              "*"
 ;
 
 %token <std::string>
@@ -118,7 +120,14 @@ selector
   sel.classes = std::vector<std::string> { $1 };
   $$ = sel;
                     }
+  | STAR            {
+  Selector sel;
+
+  sel.universal = true;
+  $$ = sel;
+                    }
   | selector ELEM   { $1.tag = $2; $1.specificity += 1; $$ = $1; }
+  | selector STAR   { $1.universal = true; $$ = $1; }
   | selector ID     { $1.id = $2; $1.specificity += 100; $$ = $1; }
   | selector CLASS  {
   $1.classes.push_back($2);

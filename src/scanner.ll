@@ -42,7 +42,8 @@ DECL_STR            " "[^:]+";"
 DECL_PX             " "{DIGIT}+"px;"
 DECL_HEXC           " ""#"{HEX}{6}";"
 
-ELEM                {IDENT}|"*"
+STAR                "*"
+ELEM                {IDENT}
 ID                  "#"{IDENT}
 CLASS               "."{IDENT}
 
@@ -63,13 +64,12 @@ CLASS               "."{IDENT}
 
 {ELEM}          return yacss::CSSParser::make_ELEM(yytext, loc);
 
-{ID}            {
-                  return yacss::CSSParser::make_ID(yytext+1, loc);
-                }
+{STAR}          return yacss::CSSParser::make_STAR(loc);
 
-{CLASS}         {
-                  return yacss::CSSParser::make_CLASS(yytext+1, loc);
-                }
+{ID}            return yacss::CSSParser::make_ID(yytext+1, loc);
+
+{CLASS}         return yacss::CSSParser::make_CLASS(yytext+1, loc);
+
 
 {COMMA}         return yacss::CSSParser::make_COMMA(loc);
 

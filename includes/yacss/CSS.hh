@@ -33,6 +33,7 @@ struct Selector
   std::string tag;
   std::string id;
   std::vector<std::string> classes;
+  bool universal = false;
   unsigned specificity = 0;
 
   inline bool operator< (const Selector& sel) const
