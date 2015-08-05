@@ -21,10 +21,7 @@ TEST(LengthWithoutSemicolon, Pixels) {
     " 20px\n";
   size_t text_size = strlen(text);
 
-  int expected = 20;
-  int actual = LengthValue::parse(text, text_size);
-
-  EXPECT_EQ(expected, actual);
+  EXPECT_EQ(LengthValue::parse(text, text_size), 20);
 }
 
 TEST(Color, Hexadecimal) {

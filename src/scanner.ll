@@ -101,7 +101,7 @@ COMMENTS            {OWS}\/\*[^*]*\*+([^/*][^*]*\*+)*\/{OWS}
                     unsigned val = yacss::LengthValue::parse(yytext, yyleng);
 
                     return yacss::CSSParser::make_DECL_VAL(
-                      yacss::LengthValue(val, "px"), loc);
+                      yacss::LengthValue(val, yacss::UNIT_PX), loc);
                   }
 
 <DECL>{DECL_HEXC} {

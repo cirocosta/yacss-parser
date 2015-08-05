@@ -11,7 +11,23 @@ std::ostream& operator<< (std::ostream& o, const KeywordValue& k)
 
 std::ostream& operator<< (std::ostream& o, const LengthValue& l)
 {
-  o << l.val << l.unit;
+  o << l.val;
+
+  switch (l.unit) {
+    case UNIT_PX:
+      o << "px";
+      break;
+    case UNIT_CM:
+      o << "cm";
+      break;
+    case UNIT_PERCENT:
+      o << "%";
+      break;
+    default:
+      throw std::runtime_error("unrecognized unit");
+  }
+
+
   return o;
 }
 

@@ -40,7 +40,7 @@ TEST(CSSPrinting, RuleWithMultipleValues) {
     "}\n";
 
   Declaration margin { "margin" , KeywordValue("auto") };
-  Declaration width  {  "width" , LengthValue(200, "px") };
+  Declaration width  {  "width" , LengthValue(200, UNIT_PX) };
   Declaration color  { "color"  , ColorRGBAValue(RGBA {10,20,30,255 })
                      };
 
