@@ -16,6 +16,17 @@ TEST(Length, Pixels) {
   EXPECT_EQ(expected, actual);
 }
 
+TEST(LengthWithoutSemicolon, Pixels) {
+  const char* text =
+    " 20px\n";
+  size_t text_size = strlen(text);
+
+  int expected = 20;
+  int actual = LengthValue::parse(text, text_size);
+
+  EXPECT_EQ(expected, actual);
+}
+
 TEST(Color, Hexadecimal) {
   const char* text =
     " #ffffff;";
@@ -30,9 +41,17 @@ TEST(Color, Hexadecimal) {
   EXPECT_EQ(expected[3], actual[3]);
 }
 
-TEST(Keyword, Alphabetic) {
+TEST(Keyword, AlphabeticWithSemicolon) {
   const char* text =
     " auto;";
+  size_t text_size = strlen(text);
+
+  EXPECT_EQ("auto", KeywordValue::parse(text, text_size));
+}
+
+TEST(Keyword, AlphabeticWithoutSemicolon) {
+  const char* text =
+    " auto";
   size_t text_size = strlen(text);
 
   std::string expected = "auto";

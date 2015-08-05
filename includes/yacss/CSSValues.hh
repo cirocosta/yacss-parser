@@ -26,10 +26,12 @@ struct KeywordValue
   inline static std::string parse (const char* text, size_t size)
   {
     unsigned i = 0;
+    unsigned j = size;
 
     while(!::isgraph(text[++i]));
+    while(!::isgraph(text[j-1]) || text[j-1] == ';') j--;
 
-    return std::string(text+i, size-i-1);
+    return std::string(text+i, j-i);
   }
 };
 

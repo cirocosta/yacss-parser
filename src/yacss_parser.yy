@@ -39,6 +39,7 @@ YY_DECL;
 %token
   END 0             "End of File (EOF)"
   COMMA             ","
+  SC                ";"
   LCB               "{"
   RCB               "}"
   OWS               " "
@@ -138,13 +139,14 @@ selector
 
 
 declarations
-  : %empty                    { $$ = DeclarationContainer {}; }
-  | declaration               { $$ = DeclarationContainer { $1 }; }
-  | declarations declaration  { $1.emplace($2); $$ = $1; }
+  : %empty                        { $$ = DeclarationContainer {}; }
+  | declaration                   { $$ = DeclarationContainer { $1 }; }
+  | declarations declaration      { $1.emplace($2); $$ = $1; }
   ;
 
 declaration
   : DECL_KEY DECL_VAL { $$ = Declaration {$1, $2}; }
+  | DECL_KEY DECL_VAL SC { $$ = Declaration {$1, $2}; }
   ;
 
 %%

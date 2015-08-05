@@ -38,14 +38,17 @@ IDENT               -?{NMSTART}{NMCHAR}*
 
 DECL_KEY            {IDENT}":"
 
-DECL_STR            " "[^:]+";"
-DECL_PX             " "{DIGIT}+"px;"
-DECL_HEXC           " ""#"{HEX}{6}";"
+DECL_STR            " "+[^:\r\n;}{]+
+DECL_PX             " "+{DIGIT}+"px"
+DECL_HEXC           " "+"#"{HEX}{6}
+SC                  ";"
 
 STAR                "*"
 ELEM                {IDENT}
 ID                  "#"{IDENT}
 CLASS               "."{IDENT}
+
+COMMENTS            {OWS}\/\*[^*]*\*+([^/*][^*]*\*+)*\/{OWS}
 
 
 %{
@@ -60,7 +63,8 @@ CLASS               "."{IDENT}
   loc.step();
 %}
 
-\/\*[^*]*\*+([^/*][^*]*\*+)*\/{OWS}  {}
+{COMMENTS}  {}
+<DECL>{COMMENTS}  {}
 
 {ELEM}          return yacss::CSSParser::make_ELEM(yytext, loc);
 
@@ -80,22 +84,25 @@ CLASS               "."{IDENT}
                   return yacss::CSSParser::make_LCB(loc);
                 }
 
+
 <DECL>{RCB}     {
                   BEGIN(INITIAL);
                   return yacss::CSSParser::make_RCB(loc);
                 }
 
-<DECL>{DECL_KEY} {
+<DECL>{SC}        { return yacss::CSSParser::make_SC(loc); }
+
+<DECL>{DECL_KEY}  {
                     return yacss::CSSParser::make_DECL_KEY(
                       std::string(yytext, 0, yyleng-1), loc);
                   }
 
-<DECL>{DECL_PX} {
+<DECL>{DECL_PX}   {
                     unsigned val = yacss::LengthValue::parse(yytext, yyleng);
 
                     return yacss::CSSParser::make_DECL_VAL(
                       yacss::LengthValue(val, "px"), loc);
-                }
+                  }
 
 <DECL>{DECL_HEXC} {
                     yacss::RGBA rgba =
@@ -112,7 +119,6 @@ CLASS               "."{IDENT}
                     return yacss::CSSParser::make_DECL_VAL(
                       yacss::KeywordValue(str), loc);
                  }
-
 
 .               driver.error(loc, "Invalid Character");
 
