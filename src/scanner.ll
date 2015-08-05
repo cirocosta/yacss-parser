@@ -25,9 +25,10 @@ static yacss::location loc;
 %x DECL
 
 OWS                 [ \r\n\f\t]*
-COMMA               {OWS}*","{OWS}*
-LCB                 "{"
-RCB                 "}"
+COMMA               {OWS}","{OWS}
+SC                  {OWS}";"{OWS}
+LCB                 "{"{OWS}
+RCB                 {OWS}"}"{OWS}
 
 HEX                 [0-9a-fA-F]
 DIGIT               [0-9]
@@ -41,7 +42,6 @@ DECL_KEY            {IDENT}":"
 DECL_STR            " "+[^:\r\n;}{]+
 DECL_PX             " "+{DIGIT}+"px"
 DECL_HEXC           " "+"#"{HEX}{6}
-SC                  ";"
 
 STAR                "*"
 ELEM                {IDENT}

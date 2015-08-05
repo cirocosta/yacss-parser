@@ -126,7 +126,7 @@ TEST(CSS, MultiSelectorWhiteSpaces) {
     "}";
 
   driver.parse_source(source);
-
+  ASSERT_EQ(driver.result, 0);
   EXPECT_EQ(driver.stylesheet.rules.size(), 1);
 
   RulePtr rule1 = driver.stylesheet.rules[0];
@@ -335,3 +335,36 @@ TEST(CSS, CommentsAnywhere) {
   EXPECT_EQ(rule1->declarations["margin-left"].type, ValueType::Length);
   EXPECT_EQ(rule1->declarations["margin-left"].get<LengthValue>().val, 200);
 }
+
+TEST(CSS, MultipleRules) {
+  bool debug = false;
+  CSSDriver driver (debug, debug);
+  const char* source =
+    "h1 {"
+    " color: black;"
+    " width: 300px;"
+    "}"
+
+    ".header {"
+      "color: green;"
+    "}";
+
+  driver.parse_source(source);
+  ASSERT_EQ(driver.result, 0);
+  EXPECT_EQ(driver.stylesheet.rules.size(), 2);
+}
+
+TEST(CSS, MultipleOnelinerRules) {
+  bool debug = false;
+  CSSDriver driver (debug, debug);
+  const char* source =
+    "h1 { color: black }"
+    ".header1 {color: green }"
+    ".header2 {color: yellow }"
+    ".header,h1,h2,h3 {color: #abcdef }";
+
+  driver.parse_source(source);
+  ASSERT_EQ(driver.result, 0);
+  EXPECT_EQ(driver.stylesheet.rules.size(), 4);
+}
+
