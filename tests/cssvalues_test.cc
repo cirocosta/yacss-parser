@@ -72,12 +72,12 @@ TEST(Keyword, SpacedWithQuotes)
 TEST(CSSBaseValue, Equality)
 {
   CSSBaseValue zero_length = LengthValue(0, UNIT_PX);
-  CSSBaseValue zero_length2 = LengthValue(0, UNIT_PX);
+  LengthValue zero_length2 (0, UNIT_PX);
   CSSBaseValue zero_percent_length = LengthValue(0, UNIT_PERCENT);
   CSSBaseValue one_length = LengthValue(1, UNIT_PX);
   CSSBaseValue zero_kw_length = KeywordValue("0px");
-  CSSBaseValue zero_kw_length2 = KeywordValue("0px");
   CSSBaseValue zero_kw = KeywordValue("0");
+  KeywordValue zero_kw_length2 ("0px");
 
   EXPECT_FALSE(zero_length == one_length);
   EXPECT_FALSE(zero_length == zero_percent_length);
