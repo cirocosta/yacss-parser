@@ -76,10 +76,15 @@ TEST(CSSBaseValue, Equality)
   CSSBaseValue zero_percent_length = LengthValue(0, UNIT_PERCENT);
   CSSBaseValue one_length = LengthValue(1, UNIT_PX);
   CSSBaseValue zero_kw_length = KeywordValue("0px");
+  CSSBaseValue zero_kw_length2 = KeywordValue("0px");
+  CSSBaseValue zero_kw = KeywordValue("0");
 
   EXPECT_FALSE(zero_length == one_length);
   EXPECT_FALSE(zero_length == zero_percent_length);
   EXPECT_TRUE(zero_length == zero_length2);
   EXPECT_TRUE(zero_length == zero_length);
   EXPECT_FALSE(zero_length == zero_kw_length);
+  EXPECT_FALSE(zero_length == zero_kw_length);
+  EXPECT_FALSE(zero_kw_length == zero_kw);
+  EXPECT_TRUE(zero_kw_length == zero_kw_length2);
 }
