@@ -35,6 +35,11 @@ struct KeywordValue {
 
     return std::string(text + i, j - i);
   }
+
+  inline bool operator==(const KeywordValue& other) const
+  {
+    return val == other.val;
+  }
 };
 
 struct LengthValue {
@@ -47,6 +52,11 @@ struct LengthValue {
   inline static int parse(const char* text, size_t size)
   {
     return std::stoi(text);
+  }
+
+  inline bool operator==(const LengthValue& other) const
+  {
+    return other.unit == unit && other.val == val;
   }
 };
 
@@ -72,6 +82,11 @@ struct ColorRGBAValue {
     rgba[3] = 255;
 
     return rgba;
+  }
+
+  inline bool operator==(const ColorRGBAValue& other) const
+  {
+    return rgba == other.rgba;
   }
 };
 
