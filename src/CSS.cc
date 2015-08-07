@@ -50,9 +50,6 @@ std::ostream& operator<<(std::ostream& o, const DeclarationContainer& declaratio
 
 std::ostream& operator<<(std::ostream& o, const Selector& selector)
 {
-  if (selector.universal)
-    o << "*";
-
   if (!selector.tag.empty())
     o << selector.tag;
 

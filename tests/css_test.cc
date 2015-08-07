@@ -66,7 +66,7 @@ TEST(CSSPrinting, UniversalSelector) {
 
   Declaration margin {"margin", KeywordValue("auto")};
   Selector universal;
-  universal.universal = true;
+  universal.tag = "*";
 
   SelectorContainer selectors { universal };
   RulePtr rule =

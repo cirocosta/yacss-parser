@@ -282,11 +282,11 @@ TEST(CSS, UniversalSelectorOnly)
   ASSERT_EQ(rule1->declarations.size(), 1);
 
   Selector universal = rule1->selectors[0];
-  ASSERT_EQ(universal.tag.empty(), true);
+  ASSERT_EQ(universal.tag.empty(), false);
+  ASSERT_EQ(universal.tag, "*");
   ASSERT_EQ(universal.id.empty(), true);
   ASSERT_EQ(universal.classes.empty(), true);
 
-  EXPECT_EQ(universal.universal, true);
   EXPECT_EQ(universal.specificity, 0);
 }
 

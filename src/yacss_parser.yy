@@ -124,11 +124,11 @@ selector
   | STAR            {
   Selector sel;
 
-  sel.universal = true;
+  sel.tag = "*";
   $$ = sel;
                     }
   | selector ELEM   { $1.tag = $2; $1.specificity += 1; $$ = $1; }
-  | selector STAR   { $1.universal = true; $$ = $1; }
+  | selector STAR   { $1.tag = "*"; $$ = $1; }
   | selector ID     { $1.id = $2; $1.specificity += 100; $$ = $1; }
   | selector CLASS  {
   $1.classes.push_back($2);
