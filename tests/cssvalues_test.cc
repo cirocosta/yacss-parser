@@ -6,7 +6,7 @@
 
 using namespace yacss;
 
-TEST(Length, Pixels)
+TEST(Length, IntegerPixelsWithSemicolon)
 {
   const char* text = " 20px;";
   size_t text_size = strlen(text);
@@ -17,12 +17,21 @@ TEST(Length, Pixels)
   EXPECT_EQ(expected, actual);
 }
 
-TEST(LengthWithoutSemicolon, Pixels)
+TEST(Length, IntegerPixelsWoutSemicolon)
 {
   const char* text = " 20px\n";
   size_t text_size = strlen(text);
 
   EXPECT_EQ(LengthValue::parse(text, text_size), 20);
+}
+
+TEST(Length, FloatPixels)
+{
+  const char* text1 = "0.5px\n";
+  const char* text2 = " .5px\n";
+
+  EXPECT_EQ(LengthValue::parse(text1, strlen(text1)), 0.5);
+  EXPECT_EQ(LengthValue::parse(text2, strlen(text2)), 0.5);
 }
 
 TEST(Color, Hexadecimal)

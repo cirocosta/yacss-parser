@@ -34,13 +34,14 @@ HEX                 [0-9a-fA-F]
 DIGIT               [0-9]
 NMSTART             [_a-zA-Z]
 NMCHAR              [_a-zA-Z0-9-]
+FLOAT               ({DIGIT}*".")?{DIGIT}+
 
 IDENT               -?{NMSTART}{NMCHAR}*
 
 DECL_KEY            {IDENT}":"
 
 DECL_STR            " "+[^:\r\n;}{]+
-DECL_PX             " "+{DIGIT}+"px"
+DECL_PX             " "+{FLOAT}"px"?
 DECL_HEXC           " "+"#"{HEX}{6}
 
 STAR                "*"
@@ -98,7 +99,7 @@ COMMENTS            {OWS}\/\*[^*]*\*+([^/*][^*]*\*+)*\/{OWS}
                   }
 
 <DECL>{DECL_PX}   {
-                    unsigned val = yacss::LengthValue::parse(yytext, yyleng);
+                    float val = yacss::LengthValue::parse(yytext, yyleng);
 
                     return yacss::CSSParser::make_DECL_VAL(
                       yacss::LengthValue(val, yacss::UNIT_PX), loc);

@@ -4,6 +4,7 @@
 #include <string>
 #include <array>
 #include <sstream>
+#include <cstring>
 
 namespace yacss
 {
@@ -49,9 +50,9 @@ struct LengthValue {
 
   inline explicit LengthValue(float v, UNIT u = UNIT_PX) : val(v), unit(u) {}
 
-  inline static int parse(const char* text, size_t size)
+  inline static float parse(const char* text, size_t size)
   {
-    return std::stoi(text);
+    return std::stof(text);
   }
 
   inline bool operator==(const LengthValue& other) const
