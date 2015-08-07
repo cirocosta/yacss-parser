@@ -40,9 +40,9 @@ IDENT               -?{NMSTART}{NMCHAR}*
 
 DECL_KEY            {IDENT}":"
 
+DECL_PX             " "+{FLOAT}"px"?{OWS}
+DECL_HEXC           " "+"#"{HEX}{6}{OWS}
 DECL_STR            " "+[^:\r\n;}{]+
-DECL_PX             " "+{FLOAT}"px"?
-DECL_HEXC           " "+"#"{HEX}{6}
 
 STAR                "*"
 ELEM                {IDENT}

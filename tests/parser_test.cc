@@ -43,14 +43,13 @@ TEST(CSS, SimpleRule)
 TEST(CSS, SimpleRuleWithFloats)
 {
   bool debug = false;
-  CSSDriver driver (debug, debug);
-  const char* source =
-    "h1 {"
-      "margin-top: 0;"
-      "margin-right: 10px;"
-      "margin-bottom: .5px;"
-      "margin-left: 10.5px;"
-    "}";
+  CSSDriver driver(debug, debug);
+  const char* source = "h1 {"
+                       "margin-top: 0;"
+                       "margin-bottom: .5px;"
+                       "margin-left: 10.5px;"
+                       "margin-right: 10px"
+                       "}";
 
   driver.parse_source(source);
   ASSERT_EQ(driver.result, 0);
@@ -377,18 +376,20 @@ TEST(CSS, MultipleRules)
 {
   bool debug = false;
   CSSDriver driver(debug, debug);
-  const char* source = "h1 {"
-                       " color: black;"
-                       " width: 300px;"
-                       "}"
-
-                       ".header {"
-                       "color: green;"
+  const char* source = "body, h1 { display: block; }"
+                       "h1 { height: 10px }"
+                       "body {"
+                       "  display: block;"
+                       "  width: 100px;"
                        "}";
 
   driver.parse_source(source);
   ASSERT_EQ(driver.result, 0);
-  EXPECT_EQ(driver.stylesheet.rules.size(), 2);
+  EXPECT_EQ(driver.stylesheet.rules.size(), 3);
+
+  const CSSBaseValue& height =
+      driver.stylesheet.rules.at(1)->declarations.at("height");
+  EXPECT_EQ(height.get<LengthValue>().val, 10.0);
 }
 
 TEST(CSS, MultipleOnelinerRules)
